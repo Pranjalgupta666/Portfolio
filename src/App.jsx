@@ -120,6 +120,18 @@ const projects = [
       "Handled seamless backend-to-frontend data processing.",
     ],
   },
+  {
+    name: "Ledger",
+    tag: "AI-Powered Business Analytics Dashboard · 2026",
+    summary: "A full-stack analytics platform that ingests CSV datasets and generates automated business insights, computing all statistics client-side to eliminate AI hallucination.",
+    stack: ["Next.js 15", "TypeScript", "Tailwind CSS", "Recharts", "Framer Motion", "Gemini API"],
+    points: [
+      "Architected a full-stack analytics platform that ingests CSV datasets and generates automated business insights, computing all statistical analysis (aggregates, trends, anomaly detection) client-side before passing structured summaries to the LLM.",
+      "Engineered a dynamic data-profiling engine in TypeScript that auto-detects column types (date, numeric, categorical) and generates time-series and category-based aggregations without a predefined schema.",
+      "Integrated the Google Gemini API to power a natural-language executive summary generator and a grounded Q&A chat interface, keeping AI responses consistent with the underlying computed data.",
+      "Designed a responsive, production-ready frontend using Next.js 15, TypeScript, and Tailwind CSS, with Recharts for data visualization and Framer Motion for interaction design; deployed on Vercel.",
+    ],
+  },
 ];
 
 function useTyped(text, speed = 28) {
@@ -442,7 +454,7 @@ export default function App() {
           </div>
           <div className="grid md:grid-cols-[180px_1fr] gap-4 md:gap-8">
             <p className="pf-mono text-xs tracking-widest" style={{ color: "var(--amber)" }}>
-              2024 — 2025
+              2025 — Present
             </p>
             <div>
               <h3 className="pf-display text-xl font-semibold mb-1">NSS Volunteer</h3>
@@ -466,7 +478,7 @@ export default function App() {
       <Section id="education" index="05 — Foundation" title="Education & Certifications">
         <div className="pf-panel rounded-md p-6 mb-5">
           <h3 className="pf-display text-lg font-semibold mb-1">
-            Bachelor of Computer Applications (BCA) 
+            Bachelor of Computer Applications (BCA)
           </h3>
           <p className="text-sm" style={{ color: "var(--teal)" }}>
             Indrashil University, Gujarat · Expected 2027
