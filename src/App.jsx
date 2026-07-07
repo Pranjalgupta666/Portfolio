@@ -497,7 +497,7 @@ export default function App() {
           </div>
           <div className="grid md:grid-cols-[180px_1fr] gap-4 md:gap-8">
             <p className="pf-mono text-xs tracking-widest" style={{ color: "var(--amber)" }}>
-              2024 — 2025
+              2025 — Present
             </p>
             <div>
               <h3 className="pf-display text-xl font-semibold mb-1">NSS Volunteer</h3>
@@ -521,7 +521,7 @@ export default function App() {
       <Section id="education" index="05 — Foundation" title="Education & Certifications">
         <div className="pf-panel rounded-md p-6 mb-5">
           <h3 className="pf-display text-lg font-semibold mb-1">
-            Bachelor of Computer Applications (BCA) in Artificial Intelligence
+            Bachelor of Computer Applications (BCA)
           </h3>
           <p className="text-sm" style={{ color: "var(--teal)" }}>
             Indrashil University, Gujarat · Expected 2027
