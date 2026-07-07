@@ -12,6 +12,12 @@ import {
   Database,
   Sparkles,
   MessageSquare,
+  MapPin,
+  Navigation,
+  Map,
+  Table2,
+  BarChart3,
+  CheckCircle2,
 } from "lucide-react";
 
 const FONT_STYLES = `
@@ -68,7 +74,7 @@ const TERMINAL_LINES = {
   skills:
     "Languages: Python, TypeScript, JavaScript, C++\nBackend: FastAPI, Django, Flask, SQLAlchemy\nFrontend: Next.js 14, React, Tailwind CSS\nAI/ML: Gemini API, ChromaDB, Sentence-Transformers, NumPy, Pandas\nData: SQLite, Git, GitHub, REST APIs",
   projects:
-    "StudyAI — full-stack local RAG pipeline, PDF Q&A, auto quiz generation.\nDistance Calc — Flask geolocation app with real-time map tracking.\nScroll down, both have full breakdowns below.",
+    "StudyAI — full-stack local RAG pipeline, PDF Q&A, auto quiz generation.\nDistance Calc — Flask geolocation app with real-time map tracking.\nLedger  — turns your CSV data into AI-explained business insights, with all the number-crunching done locally so the AI never hallucinates.\nScroll down, both have full breakdowns below.",
   experience:
     "Freelance Python & AI/ML Developer (Jul 2025–Present)\nNSS Volunteer, Indrashil University (2024–2025)",
   education:
@@ -89,13 +95,29 @@ const skillGroups = [
   { key: "data", label: "Databases & Tools", items: ["SQLite", "Git", "GitHub", "RESTful APIs"] },
 ];
 
-const ragStages = [
-  { icon: FileText, label: "Upload", detail: "User uploads a PDF. No cloud storage required — everything stays local." },
-  { icon: Scissors, label: "Chunk & Embed", detail: "Document is split and converted to vectors locally via Sentence-Transformers." },
-  { icon: Database, label: "ChromaDB", detail: "Embeddings are stored and indexed in a local ChromaDB vector database." },
-  { icon: Sparkles, label: "Gemini 1.5 Flash", detail: "Retrieved chunks are passed to Gemini to ground the answer — no hallucination." },
-  { icon: MessageSquare, label: "Page-Referenced Answer", detail: "Response returns with the exact page it came from, plus quizzes & summaries." },
-];
+const pipelines = {
+  StudyAI: [
+    { icon: FileText, label: "Upload", detail: "User uploads a PDF. No cloud storage required — everything stays local." },
+    { icon: Scissors, label: "Chunk & Embed", detail: "Document is split and converted to vectors locally via Sentence-Transformers." },
+    { icon: Database, label: "ChromaDB", detail: "Embeddings are stored and indexed in a local ChromaDB vector database." },
+    { icon: Sparkles, label: "Gemini 1.5 Flash", detail: "Retrieved chunks are passed to Gemini to ground the answer — no hallucination." },
+    { icon: MessageSquare, label: "Page-Referenced Answer", detail: "Response returns with the exact page it came from, plus quizzes & summaries." },
+  ],
+  "Distance Calc": [
+    { icon: MapPin, label: "Input Coordinates", detail: "User enters two locations (latitude/longitude) into the Flask frontend." },
+    { icon: Navigation, label: "Flask Backend", detail: "Coordinates are sent to the Flask server for processing." },
+    { icon: Table2, label: "Geolocation API", detail: "External Geolocation and map-rendering APIs resolve and validate location data." },
+    { icon: BarChart3, label: "Distance Calculation", detail: "Backend computes the geographical distance between the two coordinate pairs." },
+    { icon: Map, label: "Real-Time Map View", detail: "Result is rendered back to the frontend with a live visual map and tracking." },
+  ],
+  Ledger: [
+    { icon: FileText, label: "CSV Upload", detail: "User uploads a raw CSV dataset — no predefined schema required." },
+    { icon: Table2, label: "Data Profiling Engine", detail: "TypeScript engine auto-detects column types: date, numeric, or categorical." },
+    { icon: BarChart3, label: "Client-Side Stats", detail: "Aggregates, trends, and anomaly detection are all computed client-side first — before any LLM involvement." },
+    { icon: Sparkles, label: "Gemini API", detail: "Structured summaries (not raw data) are passed to Gemini for an executive summary and grounded Q&A chat." },
+    { icon: CheckCircle2, label: "Verified Dashboard", detail: "Recharts renders the results — every AI response stays consistent with the underlying computed data." },
+  ],
+};
 
 const projects = [
   {
@@ -293,7 +315,9 @@ function ProjectCard({ p }) {
 
 export default function App() {
   const [activeSkill, setActiveSkill] = useState(null);
+  const [activeProject, setActiveProject] = useState("StudyAI");
   const [activeStage, setActiveStage] = useState(0);
+  const activeStages = pipelines[activeProject];
   const typedTagline = useTyped("Full-Stack & AI Developer", 32);
 
   return (
@@ -388,13 +412,32 @@ export default function App() {
         </div>
       </Section>
 
-      {/* RAG PIPELINE — interactive signature element */}
-      <Section id="architecture" index="02 — Architecture" title="StudyAI's RAG Pipeline">
-        <p className="text-sm mb-6" style={{ color: "var(--ink-soft)" }}>
-          Click a stage to see what happens under the hood.
+      {/* PIPELINES — interactive signature element */}
+      <Section id="architecture" index="02 — Architecture" title="Project Pipelines">
+        <p className="text-sm mb-5" style={{ color: "var(--ink-soft)" }}>
+          Pick a project, then click a stage to see what happens under the hood.
         </p>
+        <div className="flex flex-wrap gap-2 mb-6">
+          {Object.keys(pipelines).map((name) => (
+            <button
+              key={name}
+              onClick={() => {
+                setActiveProject(name);
+                setActiveStage(0);
+              }}
+              className="pf-mono text-xs px-3 py-1.5 rounded"
+              style={{
+                background: activeProject === name ? "var(--amber)" : "var(--panel)",
+                color: activeProject === name ? "var(--bg)" : "var(--ink-soft)",
+                border: "1px solid var(--rule)",
+              }}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
         <div className="flex flex-wrap gap-3 mb-6">
-          {ragStages.map((s, i) => (
+          {activeStages.map((s, i) => (
             <button
               key={s.label}
               onClick={() => setActiveStage(i)}
@@ -403,7 +446,7 @@ export default function App() {
             >
               <s.icon size={16} style={{ color: "var(--amber)" }} />
               <span className="pf-mono text-xs">{s.label}</span>
-              {i < ragStages.length - 1 && (
+              {i < activeStages.length - 1 && (
                 <ChevronRight size={14} className="ml-1 hidden md:inline" style={{ color: "var(--rule)" }} />
               )}
             </button>
@@ -411,9 +454,9 @@ export default function App() {
         </div>
         <div className="pf-panel rounded-md p-5 text-sm" style={{ color: "var(--ink-soft)" }}>
           <span className="pf-mono text-xs uppercase tracking-widest block mb-2" style={{ color: "var(--teal)" }}>
-            {ragStages[activeStage].label}
+            {activeStages[activeStage].label}
           </span>
-          {ragStages[activeStage].detail}
+          {activeStages[activeStage].detail}
         </div>
       </Section>
 
@@ -454,7 +497,7 @@ export default function App() {
           </div>
           <div className="grid md:grid-cols-[180px_1fr] gap-4 md:gap-8">
             <p className="pf-mono text-xs tracking-widest" style={{ color: "var(--amber)" }}>
-              2025 — Present
+              2024 — 2025
             </p>
             <div>
               <h3 className="pf-display text-xl font-semibold mb-1">NSS Volunteer</h3>
@@ -478,7 +521,7 @@ export default function App() {
       <Section id="education" index="05 — Foundation" title="Education & Certifications">
         <div className="pf-panel rounded-md p-6 mb-5">
           <h3 className="pf-display text-lg font-semibold mb-1">
-            Bachelor of Computer Applications (BCA)
+            Bachelor of Computer Applications (BCA) in Artificial Intelligence
           </h3>
           <p className="text-sm" style={{ color: "var(--teal)" }}>
             Indrashil University, Gujarat · Expected 2027
